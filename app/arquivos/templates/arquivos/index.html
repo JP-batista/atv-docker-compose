@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload de Arquivos</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; color: #222; }
+    h1 { margin-bottom: 4px; }
+    .sub { color: #666; margin-top: 0; }
+    form.upload { background: #f4f6f8; padding: 20px; border-radius: 8px; }
+    form.upload p { margin: 0 0 12px; }
+    input[type=text] { width: 100%; padding: 8px; box-sizing: border-box; }
+    button { padding: 8px 16px; cursor: pointer; }
+    .msg { padding: 10px; border-radius: 6px; background: #e3f5e1; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; }
+    td form { margin: 0; }
+  </style>
+</head>
+<body>
+  <h1>Upload de Arquivos</h1>
+  <p class="sub">Django + Gunicorn · Nginx · PostgreSQL · Docker Compose</p>
+
+  {% for message in messages %}
+    <div class="msg">{{ message }}</div>
+  {% endfor %}
+
+  <form class="upload" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr><th>Título</th><th>Arquivo</th><th>Enviado em</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for a in arquivos %}
+        <tr>
+          <td>{{ a.titulo }}</td>
+          <td><a href="{{ a.arquivo.url }}" target="_blank">{{ a.nome }}</a></td>
+          <td>{{ a.enviado_em|date:"d/m/Y H:i" }}</td>
+          <td>
+            <form method="post" action="{% url 'excluir' a.pk %}">
+              {% csrf_token %}
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">Nenhum arquivo enviado ainda.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
