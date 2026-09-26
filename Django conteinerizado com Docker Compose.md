@@ -2,6 +2,7 @@
 
 # **Documentação técnica: Django conteinerizado com Docker Compose**
 
+Alunos: Rafael Tavares, João Pedro Ribeiro  
 Repositório: [**https://github.com/rafantavares/atv-docker-compose**](https://github.com/rafantavares/atv-docker-compose)
 
 Nossa aplicação é um sistema simples de upload de arquivos em Django. Ela roda em 3 containers orquestrados pelo Docker Compose: Nginx, Django/Gunicorn e PostgreSQL.
